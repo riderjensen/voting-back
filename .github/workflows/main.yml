@@ -35,7 +35,7 @@ jobs:
       - name: Run the deploy script
         run: |
           docker image prune -f
-          docker network create dota 
+          docker network inspect dota >/dev/null 2>&1 || docker network create --driver dota
           docker build -f Dockerfile -t api:latest .
           docker-compose up -d --remove-orphans
         shell: bash
