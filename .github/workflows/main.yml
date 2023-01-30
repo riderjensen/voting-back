@@ -34,3 +34,4 @@ jobs:
 
       - name: Run the deploy script
         uses: ./deploy.sh
+        shell: bash
