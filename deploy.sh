@@ -2,7 +2,7 @@
 
 docker image prune -f
 
-docker network create dota 
+docker network inspect dota >/dev/null 2>&1 || docker network create --driver dota
 
 docker build -f Dockerfile -t api:latest .
 
