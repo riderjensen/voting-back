@@ -33,5 +33,6 @@ jobs:
         shell: bash
 
       - name: Run the deploy script
-        uses: ./deploy.sh
+        uses: |
+          ./deploy.sh
         shell: bash
