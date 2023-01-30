@@ -10,4 +10,27 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout main branch
+        uses: actions/checkout@v2
+
+      - name: Create and populate .env file
+        env:
+          MYSQL_DATABASE: ${{ vairables.MYSQL_DATABASE }}
+          MYSQL_PASSWORD: ${{ vairables.MYSQL_PASSWORD }}
+          MYSQL_PORT: ${{ vairables.MYSQL_PORT }}
+          MYSQL_ROOT_PASSWORD: ${{ vairables.MYSQL_ROOT_PASSWORD }}
+          MYSQL_USER: ${{ vairables.MYSQL_USER }}
+          PORT: ${{ vairables.PORT }}
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+        run: |
+          touch .env
+          echo MYSQL_DATABASE="$MYSQL_DATABASE" >> .env
+          echo MYSQL_PASSWORD="$MYSQL_PASSWORD" >> .env
+          echo MYSQL_PORT="$MYSQL_PORT" >> .env
+          echo MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" >> .env
+          echo MYSQL_USER="$MYSQL_USER" >> .env
+          echo PORT="$PORT" >> .env
+          echo TOKEN_SECRET="$TOKEN_SECRET" >> .env
+        shell: bash
+
+      - name: Run the deploy script
         uses: ./deploy.sh
