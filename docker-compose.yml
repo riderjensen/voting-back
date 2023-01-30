@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+  api:
+    image: api:latest
+    restart: always
+    hostname: api
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_PORT: "${MYSQL_PORT}"
+      PORT: "${PORT}"
+      TOKEN_SECRET: "${TOKEN_SECRET}"
+    volumes:
+      - "/mnt/e/working-files:/mnt/data"
+    ports:
+      - "${PORT}:${PORT}"
+    networks:
+      dota:
+        aliases:
+          - api
+  db:
+    image: mysql/mysql-server:latest
+    restart: always
+    hostname: db
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}"
+    networks:
+      dota:
+        aliases:
+          - db
+volumes:
+  db_data:
+  back_data:
+
+networks:
+  dota:
+    external: true
