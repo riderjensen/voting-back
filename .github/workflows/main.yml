@@ -21,6 +21,10 @@ jobs:
           MYSQL_USER: ${{ vars.MYSQL_USER }}
           PORT: ${{ vars.PORT }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_CLIENT_ID: ${{ secrets.EMAIL_CLIENT_ID }}
+          EMAIL_CLIENT_SECRET: ${{ secrets.EMAIL_CLIENT_SECRET }}
+          EMAIL_REFRESH_TOKEN: ${{ secrets.EMAIL_REFRESH_TOKEN }}
         run: |
           touch .env
           echo MYSQL_DATABASE="$MYSQL_DATABASE" >> .env
@@ -30,6 +34,10 @@ jobs:
           echo MYSQL_USER="$MYSQL_USER" >> .env
           echo PORT="$PORT" >> .env
           echo TOKEN_SECRET="$TOKEN_SECRET" >> .env
+          echo EMAIL_PASSWORD="$EMAIL_PASSWORD" >> .env
+          echo EMAIL_CLIENT_ID="$EMAIL_CLIENT_ID" >> .env
+          echo EMAIL_CLIENT_SECRET="$EMAIL_CLIENT_SECRET" >> .env
+          echo EMAIL_REFRESH_TOKEN="$EMAIL_REFRESH_TOKEN" >> .env
         shell: bash
 
       - name: Run the deploy script

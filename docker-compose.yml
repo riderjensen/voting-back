@@ -12,6 +12,10 @@ services:
       MYSQL_PORT: "${MYSQL_PORT}"
       PORT: "${PORT}"
       TOKEN_SECRET: "${TOKEN_SECRET}"
+      EMAIL_PASSWORD: "${EMAIL_PASSWORD}"
+      EMAIL_CLIENT_ID: "${EMAIL_CLIENT_ID}"
+      EMAIL_CLIENT_SECRET: "${EMAIL_CLIENT_SECRET}"
+      EMAIL_REFRESH_TOKEN: "${EMAIL_REFRESH_TOKEN}"
     volumes:
       - "/mnt/e/working-files:/mnt/data"
     ports:

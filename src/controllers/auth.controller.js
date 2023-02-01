@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const crypto = require('crypto');
+const emailLoginCode = require('../util/email');
 const User = require('../models/User.model');
 const { isValidEmail } = require('../util/validation');
 
@@ -46,6 +47,7 @@ exports.generateCode = async (req, res) => {
       newsletter: optIn,
     });
   }
+  emailLoginCode(email, code);
   // Email user the code here
   console.log(code);
   return res.status(200).send('Email sent');
