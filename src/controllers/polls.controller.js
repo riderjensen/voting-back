@@ -11,6 +11,7 @@ exports.getAllPolls = async (req, res) => {
       order: [['closes', 'DESC']],
       include: {
         model: Vote,
+        required: false,
         where: {
           userId: id,
         },
