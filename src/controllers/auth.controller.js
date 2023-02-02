@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const crypto = require('crypto');
-const emailLoginCode = require('../util/email');
+const emailLoginCode = require('../emails/email');
 const User = require('../models/User.model');
 const { isValidEmail } = require('../util/validation');
 

@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
+const { readFileSync } = require('fs');
 
 const { OAuth2 } = google.auth;
 
@@ -15,7 +16,10 @@ oauth2Client.setCredentials({
 
 const emailLoginCode = (email, code) => {
   oauth2Client.getAccessToken((err, accessToken) => {
-    console.log('ERROR', err);
+    if (err) {
+      console.log('Access token error', err);
+      return;
+    }
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -30,18 +34,23 @@ const emailLoginCode = (email, code) => {
       },
     });
 
+    // Get the code email and place the LOGIN CODE with the code from the client
+    const file = readFileSync('build_production/code.html', 'utf8');
+    const codeInserted = file.replace('LOGIN CODE', code);
+
     const mailOptions = {
-      from: 'admin@neutralstack.io',
+      from: '"Neutral Stack Admin" <admin@neutralstack.io>',
       to: email,
-      subject: 'One Time NeutralStack.io Login Code',
-      text: `Your one time code is: ${code}`,
+      subject: 'Single Use Login Code for NeutralStack.io ',
+      text: `Your one time login code is: ${code}`,
+      html: codeInserted,
     };
 
     transporter.sendMail(mailOptions, (sendErr, data) => {
       if (sendErr) {
         console.log(`Send error ${err}`);
       } else {
-        console.log(`Email sent successfully: ${data}`);
+        console.log('Email sent successfully', data);
       }
     });
   });
