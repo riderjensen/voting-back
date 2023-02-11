@@ -64,19 +64,23 @@ exports.openPoll = async (req, res) => {
       id: req.params.id,
     },
   });
-  poll.open = true;
-  await poll.save();
-  const users = await User.findAll({
-    where: {
-      newsletter: true,
-    },
-  });
+  if (poll) {
+    poll.open = true;
+    await poll.save();
+    const users = await User.findAll({
+      where: {
+        newsletter: true,
+      },
+    });
 
-  const child = fork(path.join(__dirname, '..', 'emails', 'poll.email'));
+    const child = fork(path.join(__dirname, '..', 'emails', 'poll.email'));
 
-  child.send({ users, title: poll.question });
+    child.send({ users, title: poll.question });
 
-  return res.status(200).send('Poll opened, email campaign beginning');
+    return res.status(200).send('Poll opened, email campaign beginning');
+  } else {
+    return next();
+  }
 };
 
 exports.closePoll = async (req, res) => {
@@ -86,33 +90,37 @@ exports.closePoll = async (req, res) => {
     },
   });
 
-  const pollResults = [
-    {
-      count: poll.c1,
-      id: 1,
-    },
-    {
-      count: poll.c2,
-      id: 2,
-    },
-    {
-      count: poll.c3,
-      id: 3,
-    },
-    {
-      count: poll.c4,
-      id: 4,
-    },
-    {
-      count: poll.c5,
-      id: 5,
-    },
-  ];
+  if (poll) {
+    const pollResults = [
+      {
+        count: poll.c1,
+        id: 1,
+      },
+      {
+        count: poll.c2,
+        id: 2,
+      },
+      {
+        count: poll.c3,
+        id: 3,
+      },
+      {
+        count: poll.c4,
+        id: 4,
+      },
+      {
+        count: poll.c5,
+        id: 5,
+      },
+    ];
 
-  pollResults.sort((a, b) => b.count - a.count);
+    pollResults.sort((a, b) => b.count - a.count);
 
-  poll.set('open', false);
-  poll.set('result', pollResults[0].id);
-  const savedPoll = await poll.save();
-  return res.status(200).send(savedPoll);
+    poll.set('open', false);
+    poll.set('result', pollResults[0].id);
+    const savedPoll = await poll.save();
+    return res.status(200).send(savedPoll);
+  } else {
+    return next();
+  }
 };

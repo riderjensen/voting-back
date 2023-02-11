@@ -21,7 +21,6 @@ function createCode(length) {
 exports.generateCode = async (req, res) => {
   const {
     email,
-    admin,
     optIn,
   } = req.body;
 
@@ -40,7 +39,6 @@ exports.generateCode = async (req, res) => {
     await user.save();
   } else {
     user = await User.create({
-      admin,
       code,
       codeTime,
       email,
