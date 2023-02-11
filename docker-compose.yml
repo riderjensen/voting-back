@@ -17,8 +17,6 @@ services:
       EMAIL_CLIENT_SECRET: "${EMAIL_CLIENT_SECRET}"
       EMAIL_REFRESH_TOKEN: "${EMAIL_REFRESH_TOKEN}"
       NODE_ENV: "production"
-    volumes:
-      - "/mnt/e/working-files:/mnt/data"
     ports:
       - "${PORT}:${PORT}"
     networks:

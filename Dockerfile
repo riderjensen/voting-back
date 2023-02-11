@@ -7,9 +7,14 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm ci --only=production
-RUN npm run email-build
 
-COPY . .
+COPY index.js .
+COPY config.production.js .
+COPY tailwind.config.js .
+COPY src/ src/
+
+# Build email templates
+RUN ./node_modules/.bin/maizzle build production
 
 EXPOSE 8080
 CMD [ "npm", "start" ]
