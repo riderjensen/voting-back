@@ -7,11 +7,12 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm ci --only=production
+RUN npm run email-build
 
-COPY . .
-
-# Run
-CMD [ "npm", "run", "email-build" ]
+# Only copy necessary items
+COPY src/ src/
+COPY emails_prod/ emails_prod/
+COPY index.js ./
 
 EXPOSE 8080
 CMD [ "npm", "start" ]

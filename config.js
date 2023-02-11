@@ -14,7 +14,7 @@ module.exports = {
     templates: {
       source: 'src/emails/templates',
       destination: {
-        path: 'build_local',
+        path: 'emails_local',
       },
       assets: {
         source: 'src/emails/images',

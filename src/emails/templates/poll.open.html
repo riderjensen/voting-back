@@ -26,11 +26,14 @@ bodyClass: bg-slate-50
                   <tr>
                     <td class="p-12 sm:px-6 bg-white text-slate-700 text-base text-center leading-6 rounded shadow-sm">
                       <p>
-                        Your single use login code is: 
+                        A new poll has opened up on <a href="https://neutralstack.io/" target="_blank" rel="noopener" class="text-indigo-700">NeutralStack.io</a> with the title:
                       </p>
-                      <p class="text-2xl text-center sm:leading-8 text-indigo-900 font-semibold m-0 mb-6">
-                        {LOGIN CODE}
+                      <p class="text-2xl text-center sm:leading-8 text-indigo-900 font-semibold m-0 mb-6 py-5">
+                        {TITLE}
                       </p>
+                      <a href="https://neutralstack.io/polls" target="_blank" rel="noopener" class="text-white p-3 bg-indigo-700 rounded no-underline">
+                        View The Poll
+                      </a>
                     </td>
                   </tr>
                   <tr role="separator">
@@ -39,9 +42,10 @@ bodyClass: bg-slate-50
                   <tr>
                     <td class="text-center text-slate-600 text-xs px-6">
                       <p class="cursor-default">
-                        <a href="https://neutralstack.io/about" class="text-indigo-700 [text-decoration:none] hover:[text-decoration:underline]">About</a>
+                        <a href="https://neutralstack.io/about" class="text-indigo-700  [text-decoration:none] hover:[text-decoration:underline]">About</a>
+                        <a href="https://neutralstack.io/newsletter?email={USER_EMAIL}" class="text-indigo-700 ml-3 [text-decoration:none] hover:[text-decoration:underline]">Unsubscribe</a>
+                      </td>
                       </p>
-                    </td>
                   </tr>
                 </table>
               </td>

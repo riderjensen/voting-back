@@ -31,5 +31,5 @@ yarn-error.log*
 .env.production.local
 
 # emails
-build_local
-build_production
+emails_local
+emails_prod

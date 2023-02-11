@@ -1,4 +1,7 @@
+const path = require('node:path');
+const { fork } = require('child_process');
 const Poll = require('../models/Poll.model');
+const User = require('../models/User.model');
 const Vote = require('../models/Vote.model');
 const { pollClean } = require('../util/polls');
 
@@ -56,17 +59,24 @@ exports.createPoll = async (req, res, next) => {
 };
 
 exports.openPoll = async (req, res) => {
-  await Poll.update(
-    {
-      open: true,
+  const poll = await Poll.findOne({
+    where: {
+      id: req.params.id,
     },
-    {
-      where: {
-        id: req.params.id,
-      },
+  });
+  poll.open = true;
+  await poll.save();
+  const users = await User.findAll({
+    where: {
+      newsletter: true,
     },
-  );
-  return res.status(200).send('Poll opened');
+  });
+
+  const child = fork(path.join(__dirname, '..', 'emails', 'poll.email'));
+
+  child.send({ users, title: poll.question });
+
+  return res.status(200).send('Poll opened, email campaign beginning');
 };
 
 exports.closePoll = async (req, res) => {

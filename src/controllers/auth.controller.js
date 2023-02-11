@@ -1,18 +1,20 @@
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const crypto = require('crypto');
-const emailLoginCode = require('../emails/email');
+const emailLoginCode = require('../emails/code.email');
 const User = require('../models/User.model');
 const { isValidEmail } = require('../util/validation');
 
-async function createCode() {
-  try {
-    const code = await crypto.randomBytes(6);
-    return code.toString('hex').slice(0, 6);
-  } catch (err) {
-    console.log('create code error');
-    throw new Error('create code error');
+function createCode(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
   }
+  return result;
 }
 
 // Send a user a login code
@@ -28,7 +30,7 @@ exports.generateCode = async (req, res) => {
   }
 
   let user = await User.findOne({ where: { email } });
-  const code = await createCode();
+  const code = createCode(6);
   const codeTime = moment.now();
 
   if (user) {

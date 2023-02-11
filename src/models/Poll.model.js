@@ -13,7 +13,7 @@ const Poll = sequelize.define(
     open: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: true,
+      defaultValue: false,
     },
     // When the poll closes for votes
     closes: {
