@@ -8,10 +8,7 @@ COPY package*.json ./
 
 RUN npm ci --only=production
 
-COPY index.js .
-COPY config.production.js .
-COPY tailwind.config.js .
-COPY src/ src/
+COPY . .
 
 # Build email templates
 RUN ./node_modules/.bin/maizzle build production
