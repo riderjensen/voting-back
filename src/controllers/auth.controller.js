@@ -25,7 +25,7 @@ exports.generateCode = async (req, res) => {
   } = req.body;
 
   if (!email || !isValidEmail(email)) {
-    return res.status(500).json({ error: 'Missing or invalid email' });
+    return res.status(500).send({ error: 'Missing or invalid email' });
   }
 
   let user = await User.findOne({ where: { email } });
@@ -50,7 +50,7 @@ exports.generateCode = async (req, res) => {
   emailLoginCode(email, code);
   // Email user the code here
   console.log(code);
-  return res.status(200).send('Email sent');
+  return res.status(200).send({ message: "Email sent" });
 };
 
 exports.validateCode = async (req, res) => {
@@ -71,9 +71,9 @@ exports.validateCode = async (req, res) => {
       user.code = null;
       user.codeTime = null;
       user.save();
-      return res.status(200).json({ token });
+      return res.status(200).send({ token });
     }
-    return res.status(400).json({ error: 'Invalid code' });
+    return res.status(400).send({ error: 'Invalid code' });
   }
-  return res.status(401).json({ error: 'User does not exist' });
+  return res.status(401).send({ error: 'User does not exist' });
 };

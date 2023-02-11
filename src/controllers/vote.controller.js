@@ -9,7 +9,7 @@ exports.vote = async (req, res) => {
   const { decision } = req.body;
 
   if (!Number.isInteger(decision) || !(decision > 0) || !(decision < 6)) {
-    return res.status(500).send('Malformed decision');
+    return res.status(500).send({ error: 'Malformed decision' });
   }
 
   const poll = await Poll.findOne({
@@ -53,7 +53,7 @@ exports.vote = async (req, res) => {
     return res.status(201).send(cleanedPoll);
   }
 
-  return res.status(500).send('You cannot vote in this poll');
+  return res.status(500).send({ error: 'You cannot vote in this poll' });
 };
 
 exports.getVotes = async (req, res) => {

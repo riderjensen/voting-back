@@ -14,7 +14,7 @@ exports.getUser = async (req, res) => {
   if (user) {
     return res.status(200).send(user);
   }
-  return res.status(500).send('There is no user');
+  return res.status(500).send({ error: "There is no user with this ID" });
 };
 
 exports.getUserVotes = async (req, res) => {
@@ -30,5 +30,5 @@ exports.getUserVotes = async (req, res) => {
   if (user) {
     return res.status(200).send(user);
   }
-  return res.status(500).send('There is no user');
+  return res.status(500).send({ error: "There is no user with this ID" });
 };

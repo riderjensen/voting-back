@@ -30,7 +30,7 @@ app.use('/', indexRouter);
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.log('Error', err);
-  res.status(500).send('Your request could not be completed at this time.');
+  res.status(500).send({ error: "Your request could not be completed at this time." });
 });
 
 (async () => {

@@ -40,7 +40,7 @@ exports.createPoll = async (req, res, next) => {
   } = req.body;
 
   if (!question) return res.status(500).send('No question');
-  if (!optionOne || !optionTwo) return res.status(500).send('Two options must be provided');
+  if (!optionOne || !optionTwo) return res.status(500).send({ error: "Two options must be provided" });
 
   const poll = await Poll.create({
     question,
@@ -77,7 +77,7 @@ exports.openPoll = async (req, res) => {
 
     child.send({ users, title: poll.question });
 
-    return res.status(200).send('Poll opened, email campaign beginning');
+    return res.status(200).send({ message: "Poll opened, email campaign beginning" });
   } else {
     return next();
   }
