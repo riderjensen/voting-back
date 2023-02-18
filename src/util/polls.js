@@ -1,4 +1,4 @@
-exports.pollClean = (poll) => {
+const pollClean = (poll) => {
   const newPoll = {
     closes: poll.closes,
     id: poll.id,
@@ -43,3 +43,34 @@ exports.pollClean = (poll) => {
   }
   return newPoll;
 };
+
+const pollDecide = (poll) => {
+  const pollResults = [
+    {
+      count: poll.c1,
+      id: 1,
+    },
+    {
+      count: poll.c2,
+      id: 2,
+    },
+    {
+      count: poll.c3,
+      id: 3,
+    },
+    {
+      count: poll.c4,
+      id: 4,
+    },
+    {
+      count: poll.c5,
+      id: 5,
+    },
+  ];
+
+  pollResults.sort((a, b) => b.count - a.count);
+  return pollResults;
+}
+
+exports.pollClean = pollClean;
+exports.pollDecide = pollDecide;

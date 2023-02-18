@@ -4,6 +4,7 @@ const cors = require('cors');
 const sequelize = require('./src/util/dbConfig');
 const { token, admin, optional } = require('./src/util/auth');
 const modelAssociations = require('./src/util/modelAssociations');
+const { pollCloseQueue } = require('./src/util/pollCloseQueue');
 
 const newsletterRouter = require('./src/routes/newsletter.router');
 const authRouter = require('./src/routes/auth.router');
@@ -39,6 +40,8 @@ app.use((err, req, res, next) => {
 
     // sync models on start up just in case we add a new table
     await modelAssociations();
+    // Looks for all open polls and creates timeouts for them to close
+    await pollCloseQueue();
 
     app.listen(process.env.PORT || 3000, () => console.log(`App is running on ${process.env.PORT || 3000}`));
   } catch (error) {

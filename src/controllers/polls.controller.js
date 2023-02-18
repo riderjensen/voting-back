@@ -3,7 +3,8 @@ const { fork } = require('child_process');
 const Poll = require('../models/Poll.model');
 const User = require('../models/User.model');
 const Vote = require('../models/Vote.model');
-const { pollClean } = require('../util/polls');
+const { pollClean, pollDecide } = require('../util/polls');
+const { createTimeout } = require('../util/pollCloseQueue');
 
 exports.getAllPolls = async (req, res) => {
   const { id } = req;
@@ -58,15 +59,18 @@ exports.createPoll = async (req, res, next) => {
   return next();
 };
 
-exports.openPoll = async (req, res) => {
+exports.openPoll = async (req, res, next) => {
   const poll = await Poll.findOne({
     where: {
       id: req.params.id,
     },
   });
   if (poll) {
+    const { closes, id } = poll;
     poll.open = true;
     await poll.save();
+    // Creates a timeout to close the poll in the future
+    createTimeout(closes, id);
     const users = await User.findAll({
       where: {
         newsletter: true,
@@ -83,38 +87,16 @@ exports.openPoll = async (req, res) => {
   }
 };
 
-exports.closePoll = async (req, res) => {
+// Should be handled by our set timeout work, used for manually closing a poll
+exports.closePoll = async (req, res, next) => {
   const poll = await Poll.findOne({
     where: {
       id: req.params.id,
     },
   });
-
   if (poll) {
-    const pollResults = [
-      {
-        count: poll.c1,
-        id: 1,
-      },
-      {
-        count: poll.c2,
-        id: 2,
-      },
-      {
-        count: poll.c3,
-        id: 3,
-      },
-      {
-        count: poll.c4,
-        id: 4,
-      },
-      {
-        count: poll.c5,
-        id: 5,
-      },
-    ];
 
-    pollResults.sort((a, b) => b.count - a.count);
+    const pollResults = pollDecide(poll);
 
     poll.set('open', false);
     poll.set('result', pollResults[0].id);
