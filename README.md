@@ -1,6 +1,8 @@
 # Polling Backend
 
-First time setup with mySQL:
+This backend is an API that is for the voting system. It manages users, polls, and votes. It includes JWT authentication, admin routes, and vote management. It also includes a mailing system with mailing templates using maizzle.
+
+## First time setup with mySQL:
 
 1. Log in to the container
 2. `mysql -uroot -p`
